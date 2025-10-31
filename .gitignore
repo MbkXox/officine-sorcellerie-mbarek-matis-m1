@@ -1,0 +1,26 @@
+# Dépendances
+node_modules/
+package-lock.json
+
+# Couverture de tests
+coverage/
+*.lcov
+
+# Logs
+*.log
+npm-debug.log*
+
+# Fichiers de l'éditeur
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Environnement
+.env
+.env.local

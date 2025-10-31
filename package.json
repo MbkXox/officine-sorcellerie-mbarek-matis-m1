@@ -1,0 +1,16 @@
+{
+  "name": "officine",
+  "version": "1.0.0",
+  "description": "Système de gestion d'officine pour ingrédients et potions",
+  "main": "officine.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": ["potion", "officine", "ingrédients"],
+  "author": "Matis Mbarek",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
