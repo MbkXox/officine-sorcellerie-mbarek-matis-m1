@@ -7,18 +7,20 @@ Ce projet implémente un système de gestion d'officine permettant de stocker de
 ## Structure du projet
 
 ```
-TEST/
-├── refactoriser
+officine-sorcellerie-mbarek-matis-m1/
+├── refactoriser/
 │   ├── NormalisateurNom.ts            # Classe pour normaliser les noms (singulier/pluriel)
 │   ├── ParseurIngredient.ts           # Classe pour parser les chaînes "X ingredient"
 │   ├── GestionnaireStock.ts           # Classe pour gérer les stocks
 │   ├── Recette.ts                     # Classe représentant une recette
 │   └── officine-refactorise.ts        # Version refactorisée (architecture améliorée)
-├── test
+├── test/
 │   ├── officine-refactorise.test.ts   # Tests pour la version refactorisée
 │   └── officine.test.ts               # Tests pour la version originale
 ├── officine.ts                        # Version originale de la classe Officine
-├── package.tson                       # Configuration npm et dépendances
+├── package.json                       # Configuration npm et dépendances
+├── tsconfig.json                      # Configuration TypeScript
+├── jest.config.js                     # Configuration Jest
 └── README.md                          # Ce fichier
 ```
 
