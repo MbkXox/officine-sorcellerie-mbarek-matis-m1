@@ -225,9 +225,36 @@ describe('Officine - Tests unitaires', () => {
         });
     });
 
-    // ========== TESTS DE COUVERTURE SPÉCIFIQUE ==========
+    // ========== TESTS DE GESTION DU STOCK ==========
     
-    describe('Couverture - Cas spécifiques', () => {
+    describe('Gestion du stock interne', () => {
+        test('devrait gérer correctement le stock des ingrédients', () => {
+            officine.rentrer('10 yeux de grenouille');
+            expect(officine.quantite('œil de grenouille')).toBe(10);
+            
+            officine.rentrer('5 yeux de grenouille');
+            expect(officine.quantite('œil de grenouille')).toBe(15);
+        });
+
+        test('devrait déduire correctement les ingrédients lors de la préparation', () => {
+            officine.rentrer('10 larmes de brume funèbre');
+            officine.rentrer('5 gouttes de sang de citrouille');
+            
+            officine.preparer('2 fioles de glaires purulentes');
+            
+            expect(officine.quantite('larme de brume funèbre')).toBe(6);
+            expect(officine.quantite('goutte de sang de citrouille')).toBe(3);
+        });
+
+        test('devrait ajouter les potions au stock après préparation', () => {
+            officine.rentrer('6 larmes de brume funèbre');
+            officine.rentrer('3 gouttes de sang de citrouille');
+            
+            officine.preparer('3 fioles de glaires purulentes');
+            
+            expect(officine.quantite('fiole de glaires purulentes')).toBe(3);
+        });
+
         test('devrait ajouter des potions à un stock existant de potions', () => {
             officine.rentrer('4 larmes de brume funèbre');
             officine.rentrer('2 gouttes de sang de citrouille');
@@ -238,6 +265,30 @@ describe('Officine - Tests unitaires', () => {
             officine.rentrer('1 goutte de sang de citrouille');
             officine.preparer('1 fiole de glaires purulentes');
             expect(officine.quantite('fiole de glaires purulentes')).toBe(2);
+        });
+
+        test('devrait ne pas modifier le stock si préparation impossible', () => {
+            officine.rentrer('1 larme de brume funèbre');
+            officine.rentrer('1 goutte de sang de citrouille');
+            
+            const resultat = officine.preparer('1 fiole de glaires purulentes');
+            
+            expect(resultat).toBe(0);
+            expect(officine.quantite('larme de brume funèbre')).toBe(1);
+            expect(officine.quantite('goutte de sang de citrouille')).toBe(1);
+            expect(officine.quantite('fiole de glaires purulentes')).toBe(0);
+        });
+
+        test('devrait gérer plusieurs types d\'ingrédients simultanément', () => {
+            officine.rentrer('10 yeux de grenouille');
+            officine.rentrer('20 pincées de poudre de lune');
+            officine.rentrer('15 larmes de brume funèbre');
+            officine.rentrer('10 crocs de troll');
+            
+            expect(officine.quantite('œil de grenouille')).toBe(10);
+            expect(officine.quantite('pincée de poudre de lune')).toBe(20);
+            expect(officine.quantite('larme de brume funèbre')).toBe(15);
+            expect(officine.quantite('croc de troll')).toBe(10);
         });
     });
 
