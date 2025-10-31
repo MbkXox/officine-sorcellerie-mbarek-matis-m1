@@ -10,6 +10,10 @@ coverage/
 *.log
 npm-debug.log*
 
+# Fichiers de build7
+dist/
+build/
+
 # Fichiers de l'éditeur
 .vscode/
 .idea/
