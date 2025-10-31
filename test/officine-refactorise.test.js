@@ -1,4 +1,8 @@
 const Officine = require('../refactoriser/officine-refactorise');
+const GestionnaireStock = require('../refactoriser/GestionnaireStock');
+const Recette = require('../refactoriser/Recette');
+const NormalisateurNom = require('../refactoriser/NormalisateurNom');
+const ParseurIngredient = require('../refactoriser/ParseurIngredient');
 
 describe('Officine Refactorisée - Tests unitaires', () => {
     let officine;
@@ -222,6 +226,125 @@ describe('Officine Refactorisée - Tests unitaires', () => {
 
         test('devrait lever une erreur pour une quantité nulle', () => {
             expect(() => officine.preparer('0 fiole de glaires purulentes')).toThrow('La quantité doit être positive');
+        });
+    });
+
+    // ========== TESTS DES CLASSES UTILITAIRES ==========
+    
+    describe('GestionnaireStock - Tests unitaires', () => {
+        let stock;
+
+        beforeEach(() => {
+            stock = new GestionnaireStock();
+        });
+
+        test('devrait retirer un ingrédient inexistant sans erreur', () => {
+            stock.retirer('œil de grenouille', 5);
+            expect(stock.obtenir('œil de grenouille')).toBe(-5);
+        });
+
+        test('devrait vérifier la disponibilité d\'un ingrédient inexistant', () => {
+            expect(stock.estDisponible('larme de brume funèbre', 1)).toBe(false);
+        });
+
+        test('devrait vérifier la disponibilité correctement', () => {
+            stock.ajouter('croc de troll', 10);
+            expect(stock.estDisponible('croc de troll', 5)).toBe(true);
+            expect(stock.estDisponible('croc de troll', 15)).toBe(false);
+        });
+
+        test('devrait intégrer correctement avec Officine', () => {
+            officine.rentrer('10 larmes de brume funèbre');
+            officine.rentrer('5 gouttes de sang de citrouille');
+            const result = officine.preparer('5 fioles de glaires purulentes');
+            expect(result).toBe(5);
+        });
+    });
+
+    describe('Recette - Tests unitaires', () => {
+        test('devrait calculer 0 pour une recette sans ingrédients', () => {
+            const stock = new GestionnaireStock();
+            const recetteSansIngredients = new Recette('potion vide', []);
+            
+            expect(recetteSansIngredients.calculerMaxPreparations(stock)).toBe(0);
+        });
+
+        test('devrait calculer le max de préparations correctement', () => {
+            const stock = new GestionnaireStock();
+            stock.ajouter('œil de grenouille', 10);
+            stock.ajouter('pincée de poudre de lune', 15);
+            
+            const recette = new Recette('bille d\'âme évanescente', [
+                { nom: 'pincée de poudre de lune', quantite: 3 },
+                { nom: 'œil de grenouille', quantite: 1 }
+            ]);
+            
+            expect(recette.calculerMaxPreparations(stock)).toBe(5);
+        });
+
+        test('devrait consommer les ingrédients correctement', () => {
+            const stock = new GestionnaireStock();
+            stock.ajouter('œil de grenouille', 10);
+            stock.ajouter('pincée de poudre de lune', 15);
+            
+            const recette = new Recette('bille d\'âme évanescente', [
+                { nom: 'pincée de poudre de lune', quantite: 3 },
+                { nom: 'œil de grenouille', quantite: 1 }
+            ]);
+            
+            recette.consommerIngredients(stock, 3);
+            
+            expect(stock.obtenir('œil de grenouille')).toBe(7);
+            expect(stock.obtenir('pincée de poudre de lune')).toBe(6);
+        });
+    });
+
+    describe('NormalisateurNom - Tests unitaires', () => {
+        let normalisateur;
+
+        beforeEach(() => {
+            normalisateur = new NormalisateurNom();
+        });
+
+        test('devrait normaliser les ingrédients connus', () => {
+            expect(normalisateur.normaliser('yeux de grenouille')).toBe('œil de grenouille');
+            expect(normalisateur.normaliser('YEUX DE GRENOUILLE')).toBe('œil de grenouille');
+            expect(normalisateur.normaliser('  yeux de grenouille  ')).toBe('œil de grenouille');
+        });
+
+        test('devrait retourner le nom tel quel pour un ingrédient inconnu', () => {
+            expect(normalisateur.normaliser('ingredient inconnu')).toBe('ingredient inconnu');
+        });
+    });
+
+    describe('ParseurIngredient - Tests unitaires', () => {
+        const normalisateur = (nom) => nom.toLowerCase().trim();
+
+        test('devrait parser correctement une chaîne valide', () => {
+            const resultat = ParseurIngredient.parser('5 yeux de grenouille', normalisateur);
+            expect(resultat.quantite).toBe(5);
+            expect(resultat.nom).toBe('yeux de grenouille');
+        });
+
+        test('devrait gérer les espaces multiples', () => {
+            const resultat = ParseurIngredient.parser('  10   larmes de brume funèbre  ', normalisateur);
+            expect(resultat.quantite).toBe(10);
+            expect(resultat.nom).toBe('larmes de brume funèbre');
+        });
+
+        test('devrait lever une erreur pour un format invalide', () => {
+            expect(() => ParseurIngredient.parser('ingrédient sans quantité', normalisateur))
+                .toThrow('Format invalide');
+        });
+
+        test('devrait lever une erreur pour une quantité négative', () => {
+            expect(() => ParseurIngredient.parser('-5 yeux de grenouille', normalisateur))
+                .toThrow('La quantité doit être positive');
+        });
+
+        test('devrait lever une erreur pour une quantité nulle', () => {
+            expect(() => ParseurIngredient.parser('0 yeux de grenouille', normalisateur))
+                .toThrow('La quantité doit être positive');
         });
     });
 

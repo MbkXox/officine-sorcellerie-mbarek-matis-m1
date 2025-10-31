@@ -225,6 +225,22 @@ describe('Officine - Tests unitaires', () => {
         });
     });
 
+    // ========== TESTS DE COUVERTURE SPÉCIFIQUE ==========
+    
+    describe('Couverture - Cas spécifiques', () => {
+        test('devrait ajouter des potions à un stock existant de potions', () => {
+            officine.rentrer('4 larmes de brume funèbre');
+            officine.rentrer('2 gouttes de sang de citrouille');
+            officine.preparer('1 fiole de glaires purulentes');
+            expect(officine.quantite('fiole de glaires purulentes')).toBe(1);
+            
+            officine.rentrer('2 larmes de brume funèbre');
+            officine.rentrer('1 goutte de sang de citrouille');
+            officine.preparer('1 fiole de glaires purulentes');
+            expect(officine.quantite('fiole de glaires purulentes')).toBe(2);
+        });
+    });
+
     // ========== TESTS D'INTÉGRATION ==========
     
     describe('Tests d\'intégration - Scénarios complexes', () => {
