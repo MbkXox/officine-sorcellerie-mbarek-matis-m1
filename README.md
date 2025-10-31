@@ -8,7 +8,7 @@ Ce projet implémente un système de gestion d'officine permettant de stocker de
 
 ```
 TEST/
-├── refactorer
+├── refactoriser
 │   ├── NormalisateurNom.js            # Classe pour normaliser les noms (singulier/pluriel)
 │   ├── ParseurIngredient.js           # Classe pour parser les chaînes "X ingredient"
 │   ├── GestionnaireStock.js           # Classe pour gérer les stocks

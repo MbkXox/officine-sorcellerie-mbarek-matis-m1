@@ -1,4 +1,4 @@
-const Officine = require('../refactorer/officine-refactorise');
+const Officine = require('../refactoriser/officine-refactorise');
 
 describe('Officine Refactorisée - Tests unitaires', () => {
     let officine;
