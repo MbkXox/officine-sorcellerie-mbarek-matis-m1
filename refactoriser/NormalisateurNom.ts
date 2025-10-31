@@ -1,4 +1,6 @@
 class NormalisateurNom {
+    private tableNormalisation: { [key: string]: string };
+
     constructor() {
         this.tableNormalisation = {
             "œil de grenouille": "œil de grenouille",
@@ -28,10 +30,10 @@ class NormalisateurNom {
         };
     }
 
-    normaliser(nom) {
+    normaliser(nom: string): string {
         const nomMinuscule = nom.toLowerCase().trim();
         return this.tableNormalisation[nomMinuscule] || nomMinuscule;
     }
 }
 
-module.exports = NormalisateurNom;
+export = NormalisateurNom;

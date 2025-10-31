@@ -1,4 +1,8 @@
 class Officine {
+    private stocks: { [key: string]: number };
+    private recettes: { [key: string]: string[] };
+    private normalisationIngredients: { [key: string]: string };
+
     constructor() {
         this.stocks = {};
         
@@ -38,12 +42,12 @@ class Officine {
         };
     }
     
-    normaliserNom(nom) {
+    normaliserNom(nom: string): string {
         const nomMinuscule = nom.toLowerCase().trim();
         return this.normalisationIngredients[nomMinuscule] || nomMinuscule;
     }
     
-    parserIngredient(chaine) {
+    parserIngredient(chaine: string): { quantite: number; ingredient: string } {
         const match = chaine.trim().match(/^(-?\d+)\s+(.+)$/);
         if (!match) {
             throw new Error(`Format invalide: "${chaine}". Format attendu: "nombre ingredient"`);
@@ -55,7 +59,7 @@ class Officine {
         return { quantite, ingredient };
     }
     
-    rentrer(chaine) {
+    rentrer(chaine: string): void {
         const { quantite, ingredient } = this.parserIngredient(chaine);
         
         if (quantite <= 0) {
@@ -69,12 +73,12 @@ class Officine {
         this.stocks[ingredient] += quantite;
     }
     
-    quantite(nom) {
+    quantite(nom: string): number {
         const nomNormalise = this.normaliserNom(nom);
         return this.stocks[nomNormalise] || 0;
     }
     
-    preparer(chaine) {
+    preparer(chaine: string): number {
         const { quantite: quantiteDemandee, ingredient: potion } = this.parserIngredient(chaine);
         
         if (quantiteDemandee <= 0) {
@@ -113,4 +117,4 @@ class Officine {
     }
 }
 
-module.exports = Officine;
+export = Officine;

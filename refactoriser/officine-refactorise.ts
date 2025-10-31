@@ -1,17 +1,21 @@
-const NormalisateurNom = require('./NormalisateurNom');
-const ParseurIngredient = require('./ParseurIngredient');
-const GestionnaireStock = require('./GestionnaireStock');
-const Recette = require('./Recette');
+import NormalisateurNom = require('./NormalisateurNom');
+import ParseurIngredient = require('./ParseurIngredient');
+import GestionnaireStock = require('./GestionnaireStock');
+import Recette = require('./Recette');
 
 class Officine {
+    private normalisateur: NormalisateurNom;
+    private stock: GestionnaireStock;
+    private recettes: Map<string, Recette>;
+
     constructor() {
         this.normalisateur = new NormalisateurNom();
         this.stock = new GestionnaireStock();
         this.recettes = this._initialiserRecettes();
     }
 
-    _initialiserRecettes() {
-        const recettesData = {
+    private _initialiserRecettes(): Map<string, Recette> {
+        const recettesData: { [key: string]: string[] } = {
             "fiole de glaires purulentes": ["2 larmes de brume funèbre", "1 goutte de sang de citrouille"],
             "bille d'âme évanescente": ["3 pincées de poudre de lune", "1 œil de grenouille"],
             "soupçon de sels suffocants": ["2 crocs de troll", "1 fragment d'écaille de dragonnet", "1 radicelle de racine hurlante"],
@@ -19,7 +23,7 @@ class Officine {
             "bouffée d'essence de cauchemar": ["2 pincées de poudre de lune", "2 larmes de brume funèbre"]
         };
 
-        const recettes = new Map();
+        const recettes = new Map<string, Recette>();
 
         for (const [nomPotion, ingredientsStr] of Object.entries(recettesData)) {
             const ingredients = ingredientsStr.map(str => {
@@ -32,7 +36,7 @@ class Officine {
         return recettes;
     }
 
-    rentrer(chaine) {
+    rentrer(chaine: string): void {
         const { quantite, nom } = ParseurIngredient.parser(
             chaine, 
             (nom) => this.normalisateur.normaliser(nom)
@@ -40,12 +44,12 @@ class Officine {
         this.stock.ajouter(nom, quantite);
     }
 
-    quantite(nom) {
+    quantite(nom: string): number {
         const nomNormalise = this.normalisateur.normaliser(nom);
         return this.stock.obtenir(nomNormalise);
     }
 
-    preparer(chaine) {
+    preparer(chaine: string): number {
         const { quantite: quantiteDemandee, nom: potion } = ParseurIngredient.parser(
             chaine,
             (nom) => this.normalisateur.normaliser(nom)
@@ -68,4 +72,4 @@ class Officine {
     }
 }
 
-module.exports = Officine;
+export = Officine;

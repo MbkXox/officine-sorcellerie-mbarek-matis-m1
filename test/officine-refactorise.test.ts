@@ -1,11 +1,11 @@
-const Officine = require('../refactoriser/officine-refactorise');
-const GestionnaireStock = require('../refactoriser/GestionnaireStock');
-const Recette = require('../refactoriser/Recette');
-const NormalisateurNom = require('../refactoriser/NormalisateurNom');
-const ParseurIngredient = require('../refactoriser/ParseurIngredient');
+import Officine = require('../refactoriser/officine-refactorise');
+import GestionnaireStock = require('../refactoriser/GestionnaireStock');
+import Recette = require('../refactoriser/Recette');
+import NormalisateurNom = require('../refactoriser/NormalisateurNom');
+import ParseurIngredient = require('../refactoriser/ParseurIngredient');
 
 describe('Officine Refactorisée - Tests unitaires', () => {
-    let officine;
+    let officine: Officine;
 
     beforeEach(() => {
         officine = new Officine();
@@ -232,7 +232,7 @@ describe('Officine Refactorisée - Tests unitaires', () => {
     // ========== TESTS DES CLASSES UTILITAIRES ==========
     
     describe('GestionnaireStock - Tests unitaires', () => {
-        let stock;
+        let stock: GestionnaireStock;
 
         beforeEach(() => {
             stock = new GestionnaireStock();
@@ -300,7 +300,7 @@ describe('Officine Refactorisée - Tests unitaires', () => {
     });
 
     describe('NormalisateurNom - Tests unitaires', () => {
-        let normalisateur;
+        let normalisateur: NormalisateurNom;
 
         beforeEach(() => {
             normalisateur = new NormalisateurNom();
@@ -318,7 +318,7 @@ describe('Officine Refactorisée - Tests unitaires', () => {
     });
 
     describe('ParseurIngredient - Tests unitaires', () => {
-        const normalisateur = (nom) => nom.toLowerCase().trim();
+        const normalisateur = (nom: string) => nom.toLowerCase().trim();
 
         test('devrait parser correctement une chaîne valide', () => {
             const resultat = ParseurIngredient.parser('5 yeux de grenouille', normalisateur);

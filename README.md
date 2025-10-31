@@ -9,16 +9,16 @@ Ce projet implémente un système de gestion d'officine permettant de stocker de
 ```
 TEST/
 ├── refactoriser
-│   ├── NormalisateurNom.js            # Classe pour normaliser les noms (singulier/pluriel)
-│   ├── ParseurIngredient.js           # Classe pour parser les chaînes "X ingredient"
-│   ├── GestionnaireStock.js           # Classe pour gérer les stocks
-│   ├── Recette.js                     # Classe représentant une recette
-│   └── officine-refactorise.js        # Version refactorisée (architecture améliorée)
+│   ├── NormalisateurNom.ts            # Classe pour normaliser les noms (singulier/pluriel)
+│   ├── ParseurIngredient.ts           # Classe pour parser les chaînes "X ingredient"
+│   ├── GestionnaireStock.ts           # Classe pour gérer les stocks
+│   ├── Recette.ts                     # Classe représentant une recette
+│   └── officine-refactorise.ts        # Version refactorisée (architecture améliorée)
 ├── test
-│   ├── officine-refactorise.test.js   # Tests pour la version refactorisée
-│   └── officine.test.js               # Tests pour la version originale
-├── officine.js                        # Version originale de la classe Officine
-├── package.json                       # Configuration npm et dépendances
+│   ├── officine-refactorise.test.ts   # Tests pour la version refactorisée
+│   └── officine.test.ts               # Tests pour la version originale
+├── officine.ts                        # Version originale de la classe Officine
+├── package.tson                       # Configuration npm et dépendances
 └── README.md                          # Ce fichier
 ```
 
@@ -111,10 +111,10 @@ npm run test:coverage
 
 ```bash
 # Version originale
-npm test -- officine.test.js
+npm test -- officine.test.ts
 
 # Version refactorisée
-npm test -- officine-refactorise.test.js
+npm test -- officine-refactorise.test.ts
 ```
 
 ## Couverture des tests

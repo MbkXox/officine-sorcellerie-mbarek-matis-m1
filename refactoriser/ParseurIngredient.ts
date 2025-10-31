@@ -1,5 +1,5 @@
 class ParseurIngredient {
-    static parser(chaine, normaliseur) {
+    static parser(chaine: string, normaliseur: (nom: string) => string): { quantite: number; nom: string } {
         const match = chaine.trim().match(/^(-?\d+)\s+(.+)$/);
         
         if (!match) {
@@ -17,4 +17,4 @@ class ParseurIngredient {
     }
 }
 
-module.exports = ParseurIngredient;
+export = ParseurIngredient;

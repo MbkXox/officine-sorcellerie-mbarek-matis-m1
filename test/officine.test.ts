@@ -1,7 +1,7 @@
-const Officine = require('../officine');
+import Officine = require('../officine');
 
 describe('Officine - Tests unitaires', () => {
-    let officine;
+    let officine: Officine;
 
     beforeEach(() => {
         officine = new Officine();
